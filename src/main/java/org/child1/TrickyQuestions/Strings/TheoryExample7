@@ -1,0 +1,20 @@
+16. Can pooled strings be garbage collected?
+String s = new String("Java");
+s = null;
+
+
+Answer: Usually no.
+
+Why:
+String pool entries are strongly referenced by JVM.
+
+new String("Java") creates a new String object in the heap (not in the pool).
+
+"Java" (the literal) is in the String pool.
+
+When you set s = null;, the heap object can be garbage collected (if there are no other
+references).
+
+But the pooled string ("Java") is still in the pool and cannot be garbage collected because the
+JVM keeps a reference to it.
+

@@ -1,0 +1,16 @@
+Why Java does not support pointers?
+
+Best Interview Answer:
+“Java does not support pointers to ensure security, memory safety, and avoid direct memory access.”
+
+Key Reasons (VERY IMPORTANT):
+
+Reason	                             Explanation
+
+Security	                         Prevents unauthorized memory access
+Safety	                             Avoids memory corruption
+Simplicity	                         Easier for developers
+No memory leaks	                     GC can work properly
+
+Interview Line (Powerful):
+“Pointers break encapsulation and can crash the JVM. Java avoids them to maintain robustness.”

@@ -1,0 +1,7 @@
+3️⃣ Heap Structure
+
+Area	                                               Purpose
+
+Young Gen	                                           New objects
+Old Gen	                                               Long-lived objects
+Survivor	                                           Between young & old

@@ -1,0 +1,22 @@
+Q26. What are JVM memory areas?
+
+Expected:
+
+Stack
+Heap
+Method Area (Metaspace)
+PC Register
+Native Stack
+
+What are JVM memory areas?
+
+Area	                                    Stores
+
+Stack	                                    Method calls, local variables
+Heap	                                    Objects
+Method Area (Metaspace)	                    Class metadata, static
+PC Register	                                Current instruction
+Native Stack	                            Native code
+
+👉 Interview line:
+“Stack is thread-specific, heap is shared.”

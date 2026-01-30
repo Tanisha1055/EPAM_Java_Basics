@@ -1,0 +1,8 @@
+Explain JVM architecture.
+
+Expected components:
+
+Class Loader
+Runtime Data Areas
+Execution Engine
+Native Interface

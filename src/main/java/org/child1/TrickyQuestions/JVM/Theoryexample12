@@ -1,0 +1,9 @@
+5️⃣ finalize() Method
+
+Interview Question:
+
+What is finalize?
+
+Answer:
+
+👉 Called before object destroyed (not reliable, deprecated)

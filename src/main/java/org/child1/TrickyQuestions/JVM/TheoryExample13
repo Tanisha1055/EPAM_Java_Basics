@@ -1,0 +1,14 @@
+Interview Question:
+
+Is memory leak possible in Java?
+
+👉 Yes
+
+Example:
+
+Static collections holding objects
+List growing forever
+
+👉 Interview line:
+
+“GC can’t collect reachable objects.”

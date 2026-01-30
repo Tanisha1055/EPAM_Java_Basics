@@ -1,0 +1,5 @@
+Q27. Difference between JDK, JRE, JVM?
+
+JVM	                                 JRE	                              JDK
+
+Executes bytecode	                 JVM + libraries	                  JRE + dev tools

@@ -4,3 +4,72 @@ Answer:
 
 To enforce compile-time handling for recoverable conditions (checked) and allow flexibility for
 programming errors (unchecked).
+
+Checked exceptions are considered potentially recoverable,
+not guaranteed to be recoverable.
+
+Java forces you to acknowledge them (handle or declare) so that you consciously decide what to do.
+
+What “recoverable” actually means (in Java terms)
+When Java designers say recoverable, they mean:
+There exists a reasonable scenario where the program might continue execution if the situation
+is handled.
+
+Examples:
+
+File not found → ask for another file
+Network timeout → retry
+Database connection failed → reconnect
+
+Not:
+
+NullPointerException
+ArrayIndexOutOfBoundsException
+StackOverflowError
+
+Those usually indicate programming bugs, not environmental problems.
+
+Why Java enforces checked exceptions
+
+Consider this method:
+void readFile() throws IOException
+
+The compiler forces the caller to choose one:
+
+Option 1: Handle it
+try {
+    readFile();
+} catch (IOException e) {
+    // retry, log, fallback, notify user
+}
+
+Option 2: Propagate it
+void process() throws IOException {
+    readFile();
+}
+
+Java is not saying “you must recover”.
+It’s saying:
+“You must decide whether to recover or delegate responsibility.”
+That’s the key point.
+
+Why unchecked exceptions are not forced
+
+Unchecked exceptions represent:
+Broken logic
+Contract violations
+Programming errors
+
+Example:
+
+list.get(10);
+
+There is no meaningful recovery at runtime if the code is wrong.
+
+Forcing try-catch here would:
+
+Hide bugs
+Encourage bad design
+Add noise everywhere
+
+So Java allows them to propagate freely.

@@ -1,0 +1,6 @@
+18. Why not store passwords in String?
+
+Answer:
+
+Strings are immutable and stay in memory until GC.
+Use char[] so it can be cleared manually.

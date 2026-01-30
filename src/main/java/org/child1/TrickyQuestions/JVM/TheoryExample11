@@ -1,0 +1,9 @@
+Is GC guaranteed to run?
+
+❌ No – non-deterministic
+
+Scenario:
+A a = new A();
+a = null;
+
+👉 Object eligible for GC, not immediately collected.

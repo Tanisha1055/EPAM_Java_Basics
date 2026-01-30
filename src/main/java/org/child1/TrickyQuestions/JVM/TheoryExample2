@@ -1,0 +1,14 @@
+
+Why is java platform independent.
+
+“Java is platform independent because it uses bytecode executed by JVM, which allows the same
+code to run on different operating systems.”
+
+“Java is platform independent because it is compiled into bytecode, which is executed by the JVM. Different platforms have different JVMs, but the bytecode remains the same.”
+
+Break it simply:
+Java code  →  Compiler  →  Bytecode  →  JVM  →  Machine code
+
+Important Interview Line (Use this):
+
+“Write Once, Run Anywhere”
