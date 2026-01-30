@@ -1,0 +1,382 @@
+When a Java program starts, the operating system creates a new JVM process, and the ClassLoader
+Subsystem loads required classes using the Bootstrap, Platform, and Application ClassLoaders,
+performing loading, linking (verification, preparation, resolution), and initialization. The JVM
+then sets up its runtime memory areas, including the Heap (for objects), Stacks (for method calls
+and local variables, one per thread), Metaspace (for class metadata), PC registers, and native
+method stacks. As the program runs, each thread executes bytecode using the Execution Engine,
+where frequently used code is optimized by the JIT compiler. When an object is created using new,
+memory is allocated in the Young Generation of the heap, the object is initialized, and a reference
+(implemented internally as a pointer) is stored on the stack. Over time, unreachable objects become
+eligible for garbage collection, where the JVM identifies live objects starting from GC roots,
+reclaims memory, and compacts or relocates objects depending on the collector strategy. In modern
+JVMs (Java 21–25), garbage collection largely happens concurrently, meaning objects can be moved
+between heap regions while application threads continue running, using colored pointers and load
+barriers so references are automatically redirected to the object’s new location without stopping
+the program. This allows the JVM to manage memory efficiently with extremely short pauses, while
+ensuring objects are always seen in a safe and consistent state until they eventually become
+unreachable and their memory is reclaimed.
+
+
+📖 The Story of a Java Object (Inside the JVM Kingdom)
+
+🌍 Chapter 1: The JVM Kingdom Is Born
+
+You type:
+
+public class Main {
+    public static void main(String[] args) {
+        Student s = new Student("Tanisha");
+    }
+}
+
+
+You press Run.
+
+👉 The OS says:
+
+“Okay, I’ll create a new JVM process.”
+
+🏗️ What exactly is the JVM?
+
+The Java Virtual Machine (JVM) is:
+
+A runtime engine
+That runs bytecode
+And manages memory, threads, and garbage collection
+Each Java program = one JVM process.
+
+🧾 Chapter 2: Class Loading – The Librarian Enters
+
+Before your object can exist, JVM says:
+“First, I must understand what a Student is.”
+
+📚 ClassLoader Subsystem (Very Important)
+
+There are 3 main ClassLoaders:
+
+Bootstrap ClassLoader
+Loads core classes
+Example: Object, String, System
+Comes from rt.jar (Java 8)
+Comes from modules (Java 9+)
+
+Extension / Platform ClassLoader
+Loads Java platform classes
+
+Example: java.sql, java.logging
+
+Application ClassLoader
+Loads your classes
+
+Example: Student, Main
+
+🔄 Class Loading Phases
+
+For Student.class:
+Loading → .class file read into memory
+
+Linking
+
+Verification (bytecode safety)
+Preparation (static variables memory)
+Resolution (symbolic → direct references)
+
+Initialization
+
+Static blocks executed
+
+Static variables assigned
+
+📌 Only after this… object creation is allowed.
+
+🧠 Chapter 3: JVM Memory Areas (The City Map)
+
+Now the JVM creates its memory world:
+
+🏙️ Runtime Data Areas
+1️⃣ Heap (Shared)
+
+Where objects live
+
+Managed by Garbage Collector
+
+Divided into:
+
+Young Generation
+Old Generation
+
+2️⃣ Stack (Per Thread)
+
+Method calls
+
+Local variables
+
+References to objects
+
+3️⃣ Method Area
+
+Class metadata
+
+Method info
+
+Static variables
+
+⚠️ Java 8 change:
+
+Method Area → Metaspace
+
+Moves outside heap
+
+4️⃣ PC Register
+
+Keeps track of current instruction
+
+5️⃣ Native Method Stack
+
+For JNI (C/C++ code)
+
+👶 Chapter 4: Object Birth – new Student("Tanisha")
+
+Now comes the magical line:
+
+Student s = new Student("Tanisha");
+
+Step-by-step (Slow Motion 🐢)
+🧱 Step 1: Memory Allocation
+
+JVM checks Heap
+
+Finds space in Young Generation → Eden space
+
+🧪 Step 2: Default Initialization
+
+All instance variables set to default:
+
+int → 0
+
+String → null
+
+🧩 Step 3: Constructor Call
+
+Constructor runs
+
+"Tanisha" assigned to name
+
+🧵 Step 4: Reference Stored
+
+Variable s goes to Stack
+
+Actual object lives in Heap
+
+📌 Important:
+
+Reference in Stack → Object in Heap
+
+🌱 Chapter 5: Young Generation Explained (GC Favorite Topic)
+Young Generation has:
+
+Eden
+Survivor S0
+Survivor S1
+
+New object → Eden
+
+🧹 Chapter 6: Garbage Collection Begins (Drama 🎭)
+🧠 When does GC run?
+
+Eden is full
+
+JVM says:
+
+“Time to clean!”
+
+🔥 Minor GC (Young GC)
+What happens?
+
+JVM pauses your app (Stop-The-World)
+
+Finds reachable objects
+
+Moves them:
+Eden → Survivor (S0 or S1)
+Dead objects → deleted
+
+This is fast GC.
+
+🎂 Object Aging & Promotion
+
+Each object has an age counter.
+Survives GC once → age = 1
+Survives again → age = 2
+
+When age ≥ threshold:
+👉 Object moves to Old Generation
+
+This is called Promotion.
+
+🧓 Chapter 7: Old Generation (Long-Living Objects)
+
+Objects like:
+
+Cache
+Static references
+Singletons
+
+Live here.
+
+💥 Major GC / Full GC (The Scary One)
+Triggered when:
+
+Old Gen is full
+Memory pressure
+
+What it does:
+
+Cleans Old Gen
+May clean Metaspace
+Longer pause times
+
+📌 Interview tip:
+
+Minor GC ≠ Full GC
+
+🕰️ Chapter 8: GC Evolution (Java 8 → 17 → 25)
+
+Now the historical part 📜
+
+🟠 Java 8 Era (Classic Times)
+Default GC:
+
+Parallel GC
+
+Other GCs:
+
+Serial GC
+
+CMS (Concurrent Mark Sweep) ❌ deprecated later
+
+G1 GC (introduced earlier, optional)
+
+Problems:
+
+Long pauses
+
+Fragmentation (CMS)
+
+Not great for large heaps
+
+🟢 Java 17 Era (Modern JVM)
+Default GC:
+
+✅ G1 GC
+
+Why G1 is loved:
+
+Heap divided into regions
+Predictable pause times
+Concurrent marking
+Compacts memory
+
+Also available:
+
+ZGC (low-latency)
+
+Shenandoah (RedHat)
+
+🔵 Java 25 Era (Ultra Modern JVM 🚀)
+Big Focus:
+
+Low latency
+Scalability
+Cloud-native JVM
+
+Key Players:
+
+ZGC (Production-ready)
+
+Pause time < 10 ms
+
+Colored pointers
+Region-based
+Concurrent relocation
+
+Generational ZGC
+
+Young + Old separation (new!)
+Best of both worlds
+
+Virtual Threads (Project Loom)
+
+Millions of threads
+
+Less pressure on GC
+
+📌 Java 25 GC mindset:
+
+“GC should be almost invisible.”
+
+🧬 Chapter 9: Death of an Object ☠️
+
+An object becomes eligible for GC when:
+
+No reference from:
+
+Stack
+
+Static fields
+
+Other reachable objects
+
+❌ finalize()
+
+Deprecated ❌
+
+Unreliable
+
+Removed conceptually
+
+✅ Modern Cleanup
+
+try-with-resources
+
+AutoCloseable
+
+Cleaner API
+
+🧠 Chapter 10: JVM Object Life Summary (Interview Gold ✨)
+
+Object Life Cycle
+
+Class Loaded
+
+Memory Allocated (Heap)
+
+Constructor Executed
+
+Object Used
+
+Object Becomes Unreachable
+
+GC Reclaims Memory
+
+🎯 One-Line Interview Punches
+
+“Heap is managed by GC, Stack is not.”
+
+“Reference lives in Stack, object lives in Heap.”
+
+“Java 8 → Parallel GC, Java 17 → G1 GC, Java 25 → ZGC dominance.”
+
+“Minor GC cleans Young Gen, Major GC cleans Old Gen.”
+
+“Metaspace replaced PermGen.”
+
+If you want, next I can:
+
+🎤 Turn this into interview answers
+
+🖊️ Draw memory diagrams
+
+🧪 Explain GC algorithms internally (mark, sweep, compact)
+
+🧠 Compare G1 vs ZGC vs Shenandoah
