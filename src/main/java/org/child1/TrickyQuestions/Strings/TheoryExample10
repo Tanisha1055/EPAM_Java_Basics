@@ -1,0 +1,8 @@
+
+Why can’t mutable objects be safely cached?
+
+Caching means storing and reusing the same object instance to save memory and improve
+performance. If an object is mutable (can be changed), then after it’s cached, any code
+that gets a reference to it could change its value.
+This means the next time someone retrieves the "same" object from the cache, it might
+have a different value than expected, leading to bugs and unpredictable behavior.

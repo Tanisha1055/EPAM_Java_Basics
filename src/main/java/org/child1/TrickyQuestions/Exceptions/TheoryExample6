@@ -2,3 +2,40 @@ Q15. What is exception propagation?
 
 Expected:
 “Exception moves up the call stack until handled.”
+
+Exception Propagation Explained:
+
+When an exception occurs in a method and is not handled (no try-catch block for it in that method),
+it is passed up (propagated) to the method that called it.
+This process continues up the call stack—from method to method—until the exception is either
+caught (handled) or reaches the top level (like the main method).
+If the exception is never handled, the program will terminate and print a stack trace.
+Example
+
+void methodA() {
+    methodB();
+}
+
+void methodB() {
+    methodC();
+}
+
+void methodC() {
+    int x = 1 / 0; // ArithmeticException occurs here
+}
+methodC() throws an exception.
+
+If methodC() doesn’t handle it, the exception moves up to methodB().
+If methodB() doesn’t handle it, it moves up to methodA().
+If methodA() doesn’t handle it, it moves up to main().
+If main() doesn’t handle it, the program crashes.
+
+Summary Table
+Where exception occurs	          Is it handled?	 What happens?
+In method	                       Yes	             Handled there
+In method	                       No	             Moves up to caller
+Never handled	                   -	             Program terminates
+
+In short:
+Exception propagation means the exception “moves up the call stack” from method to method until
+it is handled.
