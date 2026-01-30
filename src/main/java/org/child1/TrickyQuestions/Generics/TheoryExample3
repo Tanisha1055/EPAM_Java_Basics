@@ -1,0 +1,47 @@
+What is Type Erasure?
+Type erasure is the process by which the Java compiler removes all information related to generic type parameters during compilation. As a result, generic types are replaced with their raw types in the compiled bytecode.
+
+Why Was Type Erasure Introduced?
+
+1. Backward Compatibility: Before Java 5, there were no generics. Millions of lines of code used
+raw types (e.g., List, Map).When generics were introduced, Java needed a way for new generic code
+to work seamlessly with old code.Type erasure allows generic classes and methods to be used with
+legacy code, so you can mix generic and non-generic code without issues.
+
+2. No Runtime Overhead: All type checking for generics is done at compile time.
+At runtime, the JVM only sees raw types (e.g., List instead of List<String>).
+This means there is no extra memory or performance cost for generics at runtime.
+
+3. JVM Simplicity: The JVM does not need to be changed to support generics.
+It only needs to understand raw types, which keeps the JVM implementation simple and efficient.
+
+How Does Type Erasure Work?
+
+Example:
+
+List<String> list = new ArrayList<>();
+list.add("hello");
+String s = list.get(0);
+
+At compile time, the compiler checks that only String objects can be added to list.
+At runtime, the type information (<String>) is erased. The JVM only sees List and ArrayList.
+
+What Actually Happens:
+The compiler replaces all generic type parameters with their upper bounds (often Object).
+Any casts needed to restore type information are inserted by the compiler.
+
+Example after erasure:
+
+List list = new ArrayList();
+list.add("hello");
+String s = (String) list.get(0); // Cast inserted by compiler
+
+Limitations Due to Type Erasure:
+
+Cannot use generic type parameters in runtime operations:
+You cannot do if (obj instanceof T) or new T().
+Cannot create arrays of generic types:
+new List<String>[10] is not allowed.
+
+Type information is not available at runtime:
+Reflection cannot tell you the generic type parameters.
