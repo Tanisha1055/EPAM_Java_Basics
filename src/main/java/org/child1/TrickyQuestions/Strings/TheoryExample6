@@ -1,0 +1,14 @@
+8️⃣ Why intern() exists
+String s = new String("Java").intern();
+
+What happens?
+
+JVM checks string pool
+If "Java" exists → returns pooled reference
+Else → adds to pool
+
+📌 Used for:
+
+Memory optimization
+
+Reference equality (==)

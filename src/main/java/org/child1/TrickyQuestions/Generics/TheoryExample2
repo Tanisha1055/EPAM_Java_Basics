@@ -1,0 +1,8 @@
+Interviewer:
+
+“If generics are erased at runtime, how does Java ensure type safety?”
+
+Strong Answer:
+
+“Type checking is done at compile time. After that, type information is erased and casts are
+inserted where required.”

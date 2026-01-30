@@ -1,0 +1,32 @@
+❓ Can we throw checked exception from lambda?
+
+❌ NO (without handling)
+
+“Can we throw checked exception from lambda?” — WHAT DO YOU MEAN?
+
+Example:
+Runnable r = () -> {
+    throw new IOException(); // ❌ compile error
+};
+
+WHY?
+
+Because Runnable.run() does NOT declare:
+throws IOException
+
+Lambda must obey functional interface method signature.
+
+Allowed options:
+
+✔ Wrap in RuntimeException
+✔ Handle with try-catch
+✔ Use custom functional interface
+
+@FunctionalInterface
+interface Task {
+    void run() throws IOException;
+}
+
+
+📌 Lambdas do NOT create new rules
+They inherit the method’s exception contract.

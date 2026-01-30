@@ -1,0 +1,55 @@
+1.Can I have try-with-resources without catch?
+
+✅ Answer: Yes. try-with-resources can be used with only finally, or even alone. The resource will
+always be closed automatically. Catch is optional.
+
+Try-with-resources without catch — YES, LEGALLY
+try (BufferedReader br = new BufferedReader(new FileReader("a.txt"))) {
+    System.out.println(br.readLine());
+}
+
+What happens?
+
+Resource closed automatically
+
+If exception occurs → propagated to caller
+
+📌 You can have:
+
+try
+try + catch
+try + finally
+try + catch + finally
+
+2.❓ Can a try block exist alone?
+
+❌ NO
+✅ YES only in try-with-resources
+
+Try-with-resources
+try (FileReader fr = new FileReader("a.txt")) {
+    // code
+}
+
+
+✅ LEGAL
+
+WHY this is allowed
+
+Because resource management itself is a guaranteed behavior.
+
+Behind the scenes, the compiler rewrites it into:
+
+FileReader fr = new FileReader("a.txt");
+try {
+    // code
+} finally {
+    fr.close();
+}
+
+📌 So even without catch, there IS a finally-equivalent block
+That’s why the grammar allows it.
+
+👉 Key idea
+
+Try-with-resources is NOT just try — it is try + implicit finally.

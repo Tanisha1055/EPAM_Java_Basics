@@ -1,0 +1,17 @@
+7️⃣ Why String immutability matters (HashMap case)
+map.put("key", 10);
+
+
+HashMap does:
+hashCode() of key
+Finds bucket
+Stores entry
+
+If String were mutable:
+key = "newKey";
+
+➡ hashCode changes
+➡ bucket changes
+➡ map can NEVER find the entry again
+
+📌 Immutability guarantees hashCode consistency

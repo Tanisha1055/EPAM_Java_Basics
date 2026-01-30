@@ -1,0 +1,4 @@
+16. Why can unchecked exceptions be thrown without throws?
+
+Answer:
+They inherit from RuntimeException, and the compiler does not enforce handling for them.

@@ -1,0 +1,7 @@
+Q11. Difference between Checked and Unchecked exception?
+
+Checked	                                     Unchecked
+
+Compile-time	                             Runtime
+Must handle	                                 Optional
+IOException	                                 NullPointerException

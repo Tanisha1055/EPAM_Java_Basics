@@ -1,0 +1,6 @@
+20. Can we catch an exception that is never thrown in the try block?
+
+Answer: No (compile-time error).
+
+Why:
+The compiler detects unreachable catch blocks.

@@ -1,0 +1,7 @@
+Q17. Difference between String, StringBuilder, StringBuffer?
+
+String	                        StringBuilder	          StringBuffer
+
+Immutable	                    Mutable	                  Mutable
+Thread-safe	                    Not thread-safe	          Thread-safe
+Slow	                        Fast	                  Slower than SB

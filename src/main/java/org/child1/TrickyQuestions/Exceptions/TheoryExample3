@@ -1,0 +1,14 @@
+Q12. Difference between throw and throws?
+
+throw	                                    throws
+
+Used to throw exception	                    Declares exception
+Inside method	                            In method signature
+Single exception	                        Multiple allowed
+
+Scenario 5️⃣: Throw vs Throws
+throw new IOException(); // action
+throws IOException // declaration
+
+
+Interviewers LOVE this confusion.

@@ -1,0 +1,6 @@
+22. Can an interface method declare exceptions?
+
+Answer: Yes.
+
+Why:
+Implementing classes must respect or narrow the exception contract.

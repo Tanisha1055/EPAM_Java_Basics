@@ -1,0 +1,24 @@
+Scenario 4️⃣: Checked exception in constructor
+
+If constructor throws exception:
+
+Object creation fails
+
+Reference never assigned
+
+
+If constructor throws exception:
+
+Memory is allocated
+Constructor starts
+Exception occurs
+Constructor NEVER completes
+Object is considered not constructed
+Reference assignment NEVER happens
+
+📌 JVM rule:
+
+An object exists only if constructor completes normally
+
+That’s why:
+obj == null

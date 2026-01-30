@@ -1,0 +1,4 @@
+Q15. What is exception propagation?
+
+Expected:
+“Exception moves up the call stack until handled.”

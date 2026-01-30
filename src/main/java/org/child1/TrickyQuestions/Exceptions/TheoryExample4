@@ -1,0 +1,14 @@
+Q13. Can finally block be skipped?
+
+Answer:
+
+Yes, in case of:
+System.exit()
+JVM crash
+
+Ex:
+try {
+    System.exit(0);
+} finally {
+    System.out.println("finally");
+}

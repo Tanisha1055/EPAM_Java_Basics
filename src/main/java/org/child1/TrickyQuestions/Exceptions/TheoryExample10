@@ -1,0 +1,7 @@
+When do we have to specify the throws keyword?
+✅ Answer:
+
+We use throws in a method signature when the method may throw a checked exception that it does not
+handle inside the method.
+
+Unchecked exceptions (RuntimeExceptions) do not require throws.

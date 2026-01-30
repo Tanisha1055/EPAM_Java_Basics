@@ -1,0 +1,5 @@
+Q33. Why main method is static?
+
+Expected:
+
+“So JVM can call it without creating object.”

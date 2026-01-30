@@ -1,0 +1,17 @@
+Q14. Can we have try without catch?
+
+Answer:
+Yes – with finally.
+
+
+The compiler asks:
+
+“If an exception occurs, who handles it?”
+
+So Java forces:
+
+at least catch OR
+
+finally
+
+Otherwise the exception would have no defined handling path.

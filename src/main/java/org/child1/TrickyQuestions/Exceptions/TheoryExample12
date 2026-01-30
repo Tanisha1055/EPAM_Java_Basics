@@ -1,0 +1,41 @@
+❓ Can finally override exception?
+
+✅ YES — dangerous
+
+
+try {
+    throw new RuntimeException();
+} finally {
+    return;
+}
+
+📌 Exception is LOST.
+
+How can finally override (kill) an exception?
+
+try {
+    throw new RuntimeException("boom");
+} finally {
+    return;
+}
+
+What REALLY happens (step-by-step)
+
+Exception is thrown in try
+JVM says: “Before leaving method, run finally”
+finally executes return
+Return exits the method immediately
+
+Exception object is discarded
+
+📌 JVM rule:
+A return, throw, or System.exit() in finally wins over everything
+Same with:
+
+finally {
+    throw new RuntimeException("new");
+}
+
+👉 Original exception is lost, replaced by new one.
+
+⚠️ This is why return in finally is considered a BAD PRACTICE

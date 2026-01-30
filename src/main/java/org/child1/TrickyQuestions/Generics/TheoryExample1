@@ -1,0 +1,14 @@
+Q: Is overloading allowed with generics?
+
+👉 Yes, but only if erased signatures are different
+
+Example (VALID):
+
+void show(List<String> list) {}
+void show(Set<String> set) {}
+
+
+Why?
+Because:
+
+List ≠ Set

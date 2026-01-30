@@ -1,0 +1,6 @@
+12. Can a finally block execute without a try?
+
+Answer: No.
+
+Why:
+finally is tied to a try block by grammar rules.

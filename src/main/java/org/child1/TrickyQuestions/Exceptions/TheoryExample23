@@ -1,0 +1,5 @@
+15. Can a method throw multiple exceptions?
+
+Answer: Yes.
+
+void m() throws IOException, SQLException

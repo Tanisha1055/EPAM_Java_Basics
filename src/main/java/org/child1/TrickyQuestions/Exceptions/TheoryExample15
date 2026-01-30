@@ -1,0 +1,14 @@
+Scenario 2️⃣: Multiple exceptions in try-with-resources
+
+try (A a = new A()) {
+    throw new RuntimeException("try");
+}
+
+
+If close() throws exception too:
+
+📌 TRY exception wins
+Other becomes suppressed exception
+
+This is the default behaviour of java that it will give preference to try's exception which also
+happens to be the primary exception

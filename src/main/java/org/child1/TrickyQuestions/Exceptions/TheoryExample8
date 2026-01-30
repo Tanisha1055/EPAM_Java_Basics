@@ -1,0 +1,12 @@
+Can a final method throw an exception?
+
+✅ Answer: Yes. A final method can throw exceptions like any other method. The final only prevents
+overriding.
+
+Ex:
+final void process() throws IOException {}
+
+Why?
+
+final only restricts overriding
+Exception behavior is unrelated

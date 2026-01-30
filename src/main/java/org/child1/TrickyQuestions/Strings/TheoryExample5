@@ -1,0 +1,7 @@
+Q19. Why String is final?
+
+Expected:
+
+To prevent overriding
+For security
+For immutability

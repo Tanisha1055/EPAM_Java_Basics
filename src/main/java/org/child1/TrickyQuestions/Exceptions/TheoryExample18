@@ -1,0 +1,8 @@
+21. Can an abstract method throw an exception?
+
+Answer: Yes.
+
+Why:
+Exception declaration is part of the method contract.
+
+Abstract class is just like normal class with abstract methods

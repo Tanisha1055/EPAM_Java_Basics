@@ -1,0 +1,6 @@
+11. Why does Java distinguish between checked and unchecked exceptions?
+
+Answer:
+
+To enforce compile-time handling for recoverable conditions (checked) and allow flexibility for
+programming errors (unchecked).

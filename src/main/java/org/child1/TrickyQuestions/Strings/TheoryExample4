@@ -1,0 +1,5 @@
+Q18. What is String Pool?
+
+Expected:
+
+“A special memory area in heap where string literals are stored.”

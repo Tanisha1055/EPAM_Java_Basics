@@ -1,0 +1,19 @@
+If a superclass method throws a checked exception, can the subclass method throw a different checked
+exception?
+
+❌ Answer: No. The subclass method can throw the same, subclass, or no exception. It cannot throw
+a broader checked exception.
+
+Parent:
+void m() throws IOException {}
+
+Child:
+void m() throws FileNotFoundException {} // OK
+void m() throws Exception {} // ❌ NOT OK
+
+
+📌 Rule:
+
+Child can throw same or narrower checked exception
+
+Unchecked exceptions → no restriction

@@ -1,0 +1,10 @@
+Q16. Why is String immutable?
+
+Expected points:
+
+Security
+Thread-safety
+Caching in String pool
+Class loading safety
+
+
