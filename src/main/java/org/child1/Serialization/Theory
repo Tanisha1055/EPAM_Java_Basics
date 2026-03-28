@@ -1,0 +1,343 @@
+1️⃣ What is Serialization? (in plain words)
+
+Serialization = converting an object into bytes
+
+Why?
+
+To save object to a file
+To send object over network
+To store object in DB / cache
+
+🧠 Think:
+
+Object → Bytes
+
+2️⃣ What is Deserialization?
+
+Deserialization = converting bytes back into object
+
+🧠 Think:
+
+Bytes → Object
+
+3️⃣ Real-Life Analogy 📦
+
+Serialization = packing a gift in a box
+Deserialization = opening the box and getting the gift back
+
+4️⃣ Simple Java Example
+
+Step 1: Make class Serializable
+
+import java.io.Serializable;
+
+class Employee implements Serializable {
+    int id;
+    String name;
+
+    Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+}
+
+📌 implements Serializable is a marker interface (no methods).
+
+Step 2: Serialization (Object → File)
+
+import java.io.*;
+
+public class SerializeDemo {
+    public static void main(String[] args) throws Exception {
+
+        Employee emp = new Employee(1, "Tanisha");
+
+        ObjectOutputStream oos =
+                new ObjectOutputStream(new FileOutputStream("emp.ser"));
+
+        oos.writeObject(emp);
+        oos.close();
+
+        System.out.println("Object serialized");
+    }
+}
+
+Step 3: Deserialization (File → Object)
+
+import java.io.*;
+
+public class DeserializeDemo {
+    public static void main(String[] args) throws Exception {
+
+        ObjectInputStream ois =
+                new ObjectInputStream(new FileInputStream("emp.ser"));
+
+        Employee emp = (Employee) ois.readObject();
+        ois.close();
+
+        System.out.println(emp.id + " " + emp.name);
+    }
+}
+
+5️⃣ Key Rules (Very Important)
+
+🔹 Serializable Interface
+
+implements Serializable
+
+Marker interface
+-Tells JVM: “This object CAN be serialized”
+
+🔹 transient keyword
+
+transient String password;
+
+Field will NOT be serialized
+
+Used for sensitive data
+
+🔹 serialVersionUID
+
+private static final long serialVersionUID = 1L;
+
+-Version control for serialized objects
+-Prevents InvalidClassException
+
+6️⃣ Why Serialization is Used?
+
+-HTTP session storage
+-Caching (Redis, Hazelcast)
+-RMI
+-Deep copy of objects
+
+7️⃣ Interview One-Liners ⭐
+
+Q: What is serialization?
+
+“Serialization is the process of converting an object into a byte stream so it can be stored or transmitted.”
+
+Q: What is deserialization?
+
+“Deserialization is the reverse process of converting a byte stream back into an object.”
+
+8️⃣ Common Pitfalls ❌
+
+-Static fields ❌ (not serialized)
+-Transient fields ❌
+-Non-serializable child objects ❌
+-Changing class after serialization ❌
+
+9️⃣ Bonus: Relation to Singleton (Trick Question)
+
+👉 Normal singleton can break during deserialization
+👉 Enum singleton does NOT break
+
+🔥 Interview gold.
+
+🔷 What is Serialization?
+
+👉 Serialization is the process of converting a Java object into a byte stream so it can be:
+
+Saved to a file
+Sent over a network
+Stored in a database/cache
+
+👉 Reverse process = Deserialization
+
+🧠 Simple Definition
+
+👉
+Serialization = Object → Bytes
+Deserialization = Bytes → Object
+
+🔷 How Serialization works in Java
+
+Java provides built-in support via:
+
+ObjectOutputStream → write object
+ObjectInputStream → read object
+
+🔷 Marker Interface: Serializable
+class User implements Serializable {}
+
+👉 Important:
+
+Serializable is a marker interface
+It has no methods
+It just tells JVM:
+👉 “This class can be serialized”
+
+🔷 What actually gets serialized?
+
+✔ Instance variables
+❌ Static variables (class-level)
+❌ Transient variables (explicitly ignored)
+
+🔑 Example
+class User implements Serializable {
+    String name;
+    transient String password; // won't be serialized
+}
+
+🔷 serialVersionUID (VERY IMPORTANT 🔥)
+
+private static final long serialVersionUID = 1L;
+
+🧠 What is it?
+
+👉 A unique ID for a class version
+
+❗ Why needed?
+
+When deserializing:
+
+JVM checks if class version matches
+
+❌ Without it:
+
+-JVM generates one automatically
+-If class changes → mismatch → Exception
+
+⚠️ Exception:
+
+InvalidClassException
+
+✅ Best Practice:
+
+Always define serialVersionUID
+
+🔷 Serialization Process (Internal Flow)
+
+👉 When you serialize an object:
+
+-JVM checks if class implements Serializable
+-Converts object into byte stream
+
+Saves:
+
+(i)Class metadata
+(ii)Field values
+
+👉 During deserialization:
+
+(i)JVM reads byte stream
+(ii)Creates object without constructor
+(iii)Restores field values
+
+🔷 Important Concept: Constructor is NOT called
+
+👉 During deserialization:
+
+User u = (User) in.readObject();
+
+👉 Constructor is skipped ❗
+
+🧠 Why?
+Object is reconstructed directly from bytes
+
+🔷 Common Issues in Serialization:
+
+❌ 1. NotSerializableException
+
+If object contains non-serializable field:
+
+class A {
+    B b; // B not serializable
+}
+
+👉 Fix:
+
+-Make B serializable OR
+-Mark as transient
+
+❌ 2. Version mismatch
+
+Class changed after serialization
+
+👉 Fix:
+
+Use serialVersionUID
+
+❌ 3. Security Issues
+Deserialization can execute malicious code
+
+👉 Important in real-world systems
+
+🔷 Serialization in Spring Boot (Real-world)
+
+Spring Boot rarely uses Java serialization directly.
+
+Instead uses:
+
+JSON (via Jackson)
+
+👉 Example:
+
+@GetMapping("/user")
+public User getUser() {
+    return new User("Tanisha", 22);
+}
+
+👉 Internally:
+
+Object → JSON (serialization)
+JSON → Object (deserialization)
+
+🔷 Java Serialization vs JSON Serialization
+
+Feature	                             Java Serialization	                             JSON
+
+Format	                             Binary	                                         Text
+Readable	                         ❌	                                              ✔
+Language dependent	                 ✔	                                              ❌
+Use case	                         Internal	                                      APIs
+
+🔷 Real-life Analogy
+
+Serialization:
+
+Packing object into a box (bytes)
+
+Deserialization:
+
+Unpacking it back into original object
+
+🔷 🔥 Interview Questions You Might Get
+
+Q1: Why use transient?
+
+👉 To avoid serializing sensitive data
+
+Q2: Why constructor not called?
+
+👉 Object recreated from byte stream
+
+Q3: Difference Serializable vs Externalizable?
+
+👉 Control vs simplicity
+
+🔷 🔥 Perfect Interview Answer
+
+👉
+Serialization in Java is the process of converting an object into a byte stream so it can be stored or
+transmitted. It is achieved using the Serializable interface, and during deserialization, the object is
+reconstructed without calling its constructor. Key concepts include serialVersionUID, transient fields,
+and custom serialization methods.
+
+🔷 Why static variables are NOT serialized
+
+👉 Short answer:
+
+Static variables belong to the class, not to the object — and serialization is only about object state.
+
+🔷 Step-by-step understanding
+🧠 1. What does serialization store?
+
+When you serialize an object:
+
+👉 JVM stores:
+
+(i)  Object’s instance variables (fields)
+(ii) Object-specific data
+
+👉 It does NOT store class-level data
