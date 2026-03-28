@@ -1,0 +1,240 @@
+Q. What is Reflection ?
+
+Reflection is the ability of Java to examine and manipulate its own structure at runtime.
+
+More about it:
+
+👉 Reflection is a feature in Java that allows a program to:
+
+(i)Inspect classes, methods, fields at runtime
+(ii)Create objects dynamically
+(iii)Access private members
+(iv)Invoke methods dynamically
+
+🔷 2️⃣ Why Reflection exists
+
+Normally in Java:
+
+User user = new User();
+user.getName();
+
+👉 Everything is known at compile time
+
+But sometimes:
+
+-Class name is not known beforehand
+-Methods are dynamic
+-Framework needs flexibility
+
+👉 Reflection solves this
+
+🔷 3️⃣ Core Classes in Reflection
+
+All reflection comes from:
+
+👉 java.lang.reflect package
+
+🔑 Important classes:
+Class	                                  Purpose
+Class	                                  Represents class metadata
+Method	                                  Represents method
+Field	                                  Represents variable
+Constructor	                              Represents constructor
+
+🔷 4️⃣ How Reflection Works (Step-by-step)
+
+🔹 Step 1: Get Class Object
+
+Class<?> clazz = Class.forName("User");
+
+OR
+
+Class<?> clazz = User.class;
+
+🔹 Step 2: Create Object
+
+Object obj = clazz.getDeclaredConstructor().newInstance();
+
+🔹 Step 3: Access Fields
+
+Field field = clazz.getDeclaredField("name");
+field.setAccessible(true);
+field.set(obj, "Tanisha");
+
+🔹 Step 4: Call Methods
+
+Method method = clazz.getDeclaredMethod("getName");
+String result = (String) method.invoke(obj);
+
+🔷 5️⃣ Internal Working (Important 🔥)
+
+When you use reflection:
+
+👉 JVM:
+
+(i)Loads class metadata into memory
+(ii)Creates Class object
+(iii)Uses metadata to:
+(iv)Find fields/methods
+(v)Invoke them dynamically
+
+❗ Why reflection is slower?
+
+Normal call:
+
+user.getName();
+
+Reflection call:
+
+method.invoke(user);
+
+👉 Extra steps:
+
+-Lookup method
+-Security checks
+-Dynamic invocation
+
+🔷 6️⃣ Breaking Encapsulation (Important)
+field.setAccessible(true);
+
+👉 Allows access to:
+
+(i)private
+(ii)protected
+
+⚠️ This is powerful but dangerous
+
+🔷 7️⃣ Real-world Use Cases of Reflection
+
+✅ 1. Frameworks (Most important)
+
+Frameworks like:
+-Spring Framework
+-Hibernate
+
+👉 Use reflection heavily
+
+✅ 2. Dependency Injection:
+
+(i)Creating objects dynamically
+(ii)Injecting dependencies
+
+✅ 3. Annotation Processing
+if (clazz.isAnnotationPresent(Entity.class))
+
+👉 Used in:
+-Spring
+-Hibernate
+
+✅ 4. Testing Frameworks
+JUnit
+
+👉 Finds methods with @Test and runs them
+
+✅ 5. Serialization/Deserialization
+JSON libraries (like Jackson)
+Map JSON ↔ Object
+
+✅ 6. Dynamic Proxies
+Used in AOP (logging, transactions)
+
+🔷 8️⃣ Reflection in Spring Boot (VERY IMPORTANT 🔥)
+
+Spring Boot (built on Spring Framework) uses reflection everywhere.
+
+🔥 1. Bean Creation:
+
+@Service
+class UserService {}
+
+👉 Spring:
+
+(i)   Scans classpath
+(ii)  Finds annotation
+(iii) Creates object using reflection
+
+🔥 2. Dependency Injection
+@Autowired
+private UserService userService;
+
+👉 Internally:
+
+field.setAccessible(true);
+field.set(obj, dependency);
+
+🔥 3. Controller Method Execution
+
+@GetMapping("/hello")
+public String hello() { return "Hi"; }
+
+👉 When request comes:
+
+Spring finds method
+Calls:
+method.invoke(controller);
+
+🔥 4. Reading Annotations
+if (clazz.isAnnotationPresent(Service.class))
+
+👉 Used in:
+
+-Component scanning
+-Configuration
+
+🔥 5. Spring Data JPA
+interface UserRepository extends JpaRepository<User, Long> {}
+
+👉 You don’t implement anything 😲
+
+👉 Spring:
+
+Generates implementation using reflection + proxies
+
+🔥 6. AOP (Transactions, Logging)
+
+@Transactional
+
+👉 Spring:
+
+-Creates proxy
+-Intercepts method
+-Uses reflection to invoke actual method
+
+🔷 9️⃣ Advantages of Reflection
+
+✔ Very flexible
+✔ Enables frameworks
+✔ Reduces boilerplate
+✔ Dynamic behavior
+
+🔷 🔟 Disadvantages
+
+❌ Slower than normal calls
+❌ Breaks encapsulation
+❌ Hard to debug
+❌ Security risks
+
+🔷 1️⃣1️⃣ Modern Optimization (Important)
+
+👉 Newer Java + Spring:
+
+Reduce reflection using:
+-AOT (Ahead-of-Time compilation)
+-Bytecode generation
+
+🔷 1️⃣2️⃣ Real-life Analogy
+
+Without reflection:
+
+You know exactly who to call
+
+With reflection:
+
+You look at a directory and dynamically find & call people
+
+🔷 🔥 Final Interview Answer:
+
+Reflection in Java allows inspection and manipulation of classes, methods, and fields at runtime.
+It is widely used in frameworks like Spring Boot for creating beans, injecting dependencies,
+invoking methods, and processing annotations. While powerful and flexible, it has performance
+overhead and should be used carefully.
