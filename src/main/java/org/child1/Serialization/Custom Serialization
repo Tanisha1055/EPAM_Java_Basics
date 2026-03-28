@@ -1,0 +1,19 @@
+🔷 Custom Serialization (Advanced 🔥)
+
+You can control serialization:
+
+1️⃣ writeObject()
+private void writeObject(ObjectOutputStream out) throws IOException {
+    out.defaultWriteObject();
+    // custom logic
+}
+2️⃣ readObject()
+private void readObject(ObjectInputStream in) throws Exception {
+    in.defaultReadObject();
+    // custom logic
+}
+
+👉 Used for:
+
+Encrypting fields
+Custom validation
