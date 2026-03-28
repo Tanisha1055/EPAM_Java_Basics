@@ -1,0 +1,15 @@
+🔷 Externalizable (Advanced)
+
+Alternative to Serializable:
+
+class User implements Externalizable {
+    public void writeExternal(ObjectOutput out) {}
+    public void readExternal(ObjectInput in) {}
+}
+🔥 Difference:
+
+Feature	                                     Serializable	Externalizable
+
+Control	                                      JVM	        Developer
+Ease	                                      Easy	        Complex
+Performance	                                  Slower	    Faster
