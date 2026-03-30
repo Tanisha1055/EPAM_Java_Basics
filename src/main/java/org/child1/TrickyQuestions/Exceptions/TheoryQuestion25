@@ -1,0 +1,154 @@
+Q. So if it the case 1 of the continuation of the Theory Example 24 , then what happens and why?
+
+Ans: 🔷 Case 1 Recap
+
+     import java.io.IOException;
+
+     class MyException extends IOException {}
+
+     class Parent {
+         void read() throws IOException {
+             System.out.println("Parent read");
+         }
+     }
+
+     class Child extends Parent {
+         @Override
+         void read() throws MyException {
+             System.out.println("Child read");
+             throw new MyException();
+         }
+     }
+
+     🔷 What happens here?
+     ✅ 1️⃣ Compilation
+
+     ✔ Compiles successfully
+
+     👉 Because:
+     -MyException is a subclass of IOException
+     -So it follows the rule
+
+     🔷 2️⃣ Runtime behavior (VERY IMPORTANT 🔥)
+
+     Parent obj = new Child();
+     obj.read();
+
+     🔍 Step-by-step
+
+     👉 Step 1: Reference type
+
+     Parent obj
+
+     Compiler thinks:
+
+     “This method may throw IOException”
+
+     👉 Step 2: Object type
+
+     new Child()
+
+     At runtime:
+
+     Child’s method runs (method overriding)
+
+     👉 Step 3: Method execution
+
+     Child read() → throws MyException
+
+     👉 So actual exception thrown:
+
+     MyException
+
+     🔷 3️⃣ Exception Handling
+
+     You must handle it like this:
+
+     try {
+         obj.read();
+     } catch (IOException e) {
+         System.out.println("Handled");
+     }
+
+     🧠 Why catch IOException works?
+
+     👉 Because:
+
+     MyException IS-A IOException
+
+     👉 So parent type can catch child exception
+
+     🔷 🔥 Important Concept
+
+     👉 Compile-time vs Runtime
+
+     Stage	                                         What happens
+
+     Compile-time	                                 Sees IOException
+     Runtime	                                     Throws MyException
+
+     🔷 Output
+
+     Child read
+     Handled
+
+     🔷 🔥 Key Insight (VERY IMPORTANT)
+
+     👉 Even though child throws MyException:
+
+     ✔ Caller only needs to handle parent exception (IOException)
+
+     🔷 Why Java allows this?
+
+     👉 Because of polymorphism
+
+     If this was NOT allowed:
+
+     Parent obj = new Child();
+
+     👉 Would break consistency
+
+     🔷 Real-life analogy
+
+     Parent says:
+
+     “I may throw a file error”
+
+     Child says:
+
+     “I throw a specific file error”
+
+     👉 Caller:
+
+     “Okay, I’ll handle file errors”
+
+     ✔ Works perfectly
+
+     🔷 🔥 Interview Answer
+     👉
+     If the child class throws a subclass of the parent’s exception, the code compiles
+     successfully. At runtime, the child’s method is executed and the subclass exception is
+     thrown, but it can still be handled using the parent exception type due to polymorphism.
+
+     🔷 One-line memory trick
+     👉
+     Compile-time sees parent exception, runtime throws child exception
+
+     Reason:
+
+     So in the try-catch one we are throwing IO Exception , as we reference type is Parent
+     so what are the types accessible for Exception handling it is IO Exception only , as the
+     handling capability depends on the ref type. Also by the rule of the exception , we know
+     that the child can't throw broader exception, so the parent type of exception is the
+     broader one then the child type will def be able to handle it.
+     So this passes the compile time .
+
+     (so at compile time it sees the parent type and the Child IS-A parent type so it expects a
+     IO exception only , and during runtime due to broader type of exception of the parent-child
+     rule it passes obviously.)
+
+     The actual thing that happens in runtime is:
+     Due to overriding the child methods will be called actually , so what actually runs at runtime
+     depends on the actual object created , and we have the actual obj of Child class.
+     So all the child classes method will be executed , along with it's exception will be thrown
+     which would def be handled by the try-catch block .
