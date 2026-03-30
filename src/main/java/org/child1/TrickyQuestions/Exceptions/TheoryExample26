@@ -1,0 +1,6 @@
+🔷 🔥 One-line memory tricks
+
+Finally always runs (except System.exit)
+Finally overrides everything (return & exception)
+Catch order = child → parent
+Checked exception → must handle
