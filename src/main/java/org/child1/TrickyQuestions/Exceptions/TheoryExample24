@@ -1,0 +1,119 @@
+Q. If I have a inheritance based scenario in which the parent is throwing one kind of exception
+like one is throwing a IO Exception and the other is throwing custom exception. Both of them the
+same method signature . Then what will happen in this case ?
+
+Ans: 🔷 Scenario you described
+
+     Parent class → method throws IOException
+     Child class → same method throws custom exception
+
+     👉 What happens?
+
+     🔷 First Rule (VERY IMPORTANT)
+
+     👉 In method overriding:
+
+     Child class can only throw:
+
+     ✔ Same exception
+     ✔ Subclass of parent exception
+     ❌ NOT a broader/new checked exception
+
+     🔷 Case 1: Custom Exception is a subclass of IOException ✅
+
+     class MyException extends IOException {}
+     class Parent {
+         void read() throws IOException {}
+     }
+
+     class Child extends Parent {
+         void read() throws MyException {} // ✅ allowed
+     }
+
+     🧠 Why allowed?
+
+     👉 Because:
+
+     MyException is-a IOException
+     So it follows Liskov Substitution Principle
+     🔥 Output:
+
+     ✔ Compiles successfully
+     ✔ Works fine
+
+     🔷 Case 2: Custom Exception is NOT related ❌
+
+     class MyException extends Exception {}
+     class Parent {
+         void read() throws IOException {}
+     }
+
+     class Child extends Parent {
+         void read() throws MyException {} // ❌ compile error
+     }
+
+     ❗ Why error?
+
+     👉 Because:
+
+     Parent says: “I may throw IOException”
+     Child says: “I throw something else”
+
+     👉 This breaks polymorphism
+
+     💥 Compiler Error:
+     Exception MyException is not compatible with throws clause in Parent.read()
+
+     🔷 Case 3: Child throws NO exception ✅
+
+     class Child extends Parent {
+         void read() {} // ✅ allowed
+     }
+
+     👉 Child can reduce exceptions
+
+     🔷 Case 4: Runtime Exception (Unchecked) ✅
+
+     class MyRuntimeException extends RuntimeException {}
+     class Child extends Parent {
+         void read() throws MyRuntimeException {} // ✅ allowed
+     }
+
+     🧠 Why allowed?
+
+     👉 Runtime exceptions are:
+
+     -NOT checked by compiler
+     -No restriction
+
+     🔷 Summary Table
+
+     Scenario	                                               Allowed?
+
+     Same exception	                                           ✅
+     Subclass exception	                                       ✅
+     New checked exception	                                   ❌
+     No exception	                                           ✅
+     Runtime exception	                                       ✅
+
+     🔷 Simple Rule to Remember
+
+     👉
+     Child can narrow exceptions, not widen them
+
+     🔷 Real-life analogy
+
+     Parent:
+
+     “I may throw a File error”
+
+     Child:
+
+     ✔ “I throw a specific File error” → OK
+     ❌ “I throw a Database error” → NOT OK
+
+     🔷 🔥 Interview Answer
+     👉
+     In method overriding, the child class can only throw the same exception or its subclass if
+     it is a checked exception. If the custom exception is not a subclass of the parent’s exception,
+     it results in a compile-time error. However, unchecked exceptions can be thrown freely.
